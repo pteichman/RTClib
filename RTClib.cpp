@@ -125,6 +125,14 @@ static uint8_t bcd2bin (uint8_t val) { return val - 6 * (val >> 4); }
 static uint8_t bin2bcd (uint8_t val) { return val + 6 * (val / 10); }
 
 uint8_t RTC_DS1307::begin(void) {
+  Wire.beginTransmission(DS1307_ADDRESS);
+  Wire.send(0);
+  uint8_t val = Wire.endTransmission();
+
+  if (val != 0) {
+    return 0;
+  }
+
   return 1;
 }
 
